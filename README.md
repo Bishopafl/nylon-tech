@@ -23,6 +23,11 @@ My local machine is a Mac M1 machine, and might have a different  setup than you
 
 `docker-compose up -d --build`
 
+### Notes
+To shell into the instance of the docker container for whatever reason, use the following command:
+
+`docker-compose exec app bash`
+
 ## Troubleshooting
 If you encounter any issues, please ensure that you have followed the prerequisites and steps correctly. If the problem persists, ensure that you are using the correct machine. If not adjust the docker-compose.yml file according to your machine setup.
 
