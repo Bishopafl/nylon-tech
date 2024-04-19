@@ -27,9 +27,17 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
+                    Update your account's profile information to complete registration. 
                 </p>
             </header>
+
+            {errors.error && (
+                <div role="alert">  
+                    <div className="bg-red-500">
+                        {errors.error}
+                    </div>
+                </div>
+            )}
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
@@ -93,6 +101,12 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
                         <InputError className="mt-2" message={errors.ss_number} />
                     </div>
+                )}
+
+                { user.ss_number !== '' && (
+                    <>
+                        <h2>You have successfully entered your SSN. For security purposes it will not be displayed again. Please contact us for any assistance.</h2>
+                    </>
                 )}
 
                 {mustVerifyEmail && user.email_verified_at === null && (
