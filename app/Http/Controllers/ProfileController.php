@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,15 +30,40 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        try {
+            /**
+             * if the user object doesn't have a ssn
+             * and the request has a ss_number
+             * then we can assign one to the user
+             */
+            if($user->ss_number == "" && $request->ss_number) {
+                $req_ssn = $request->ss_number;
+                // check for any non-numeric numbers and the length is 9 characters long
+                $character_regex = '/[a-zA-Z](9)/';
+
+                // if the request ssn doesn't have a non-numberic character and is 9  characters long throw an error
+                if (preg_match($character_regex, $req_ssn)) {
+                    return back()->withErrors(['ss_number' => "There is an error with your Social Security Number."]);
+                }
+
+                $user->ss_number = $request->ss_number;
+            }
+
+            $user->fill($request->validated());
+
+            if ($user->isDirty('email')) {
+                $user->email_verified_at = null;
+            }
+
+            $user->save();
+
+            return Redirect::route('profile.edit');
+
+        } catch (\Throwable $th) {
+            return back()->withErrors(['error' => "An error occurred while trying to save your changes: ". $th->getMessage()]);
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit');
     }
 
     /**
