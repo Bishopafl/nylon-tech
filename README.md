@@ -31,6 +31,13 @@ To shell into the instance of the docker container for whatever reason, use the 
 ## Troubleshooting
 If you encounter any issues, please ensure that you have followed the prerequisites and steps correctly. If the problem persists, ensure that you are using the correct machine. If not adjust the docker-compose.yml file according to your machine setup.
 
+### What I would change if I had more time...
+I tried my best to make this application as simple and  easy to understand as possible. However, there are some things that I would change if I had more time. For example, setting up a Service for checking user information, creating a custom Response with error handling if validation fails. 
+
+Tokenization of the users ssn utilizing tools that will hash data in the database. I would also add some additional checks if this was the way the business wanted to move forward if tokenization was not possible just to further secure this piece of data.
+
+I would also add a proper CI/CD pipeline within github to ensure that the code is running as expected. I would also add some unit and front end tests to ensure proper data can be inserted into each instance of the user and registration respectively. 
+
 ### Additional Information
 The Docker Compose configuration is optimized for a Mac M1 machine. If you are using a different machine, you might need to adjust the docker-compose.yml file accordingly.
 
@@ -41,6 +48,3 @@ The Dockerfile is set up to install the necessary dependencies, copy the applica
 The project uses a non-root user within the container to run the application.
 
 Health checks are added to the Dockerfile to ensure that the application is running correctly.
-
-## License
-This project is open-sourced under the MIT license.
