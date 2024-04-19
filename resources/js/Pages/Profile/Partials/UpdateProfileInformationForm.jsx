@@ -9,7 +9,9 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const user = usePage().props.auth.user;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        name: user.name,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        ss_number: user.ss_number,
         email: user.email,
     });
 
@@ -25,25 +27,47 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
+                    Update your account's profile information to complete registration. 
                 </p>
             </header>
 
+            {errors.error && (
+                <div role="alert">  
+                    <div className="bg-red-500">
+                        {errors.error}
+                    </div>
+                </div>
+            )}
+
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="first_name" value="First Name" />
 
                     <TextInput
-                        id="name"
+                        id="first_name"
                         className="mt-1 block w-full"
-                        value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
+                        value={data.first_name}
+                        onChange={(e) => setData('first_name', e.target.value)}
                         isFocused
-                        autoComplete="name"
+                        autoComplete="first_name"
                     />
 
-                    <InputError className="mt-2" message={errors.name} />
+                    <InputError className="mt-2" message={errors.first_name} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="last_name" value="Last Name" />
+
+                    <TextInput
+                        id="last_name"
+                        className="mt-1 block w-full"
+                        value={data.last_name}
+                        onChange={(e) => setData('last_name', e.target.value)}
+                        isFocused
+                        autoComplete="last_name"
+                    />
+
+                    <InputError className="mt-2" message={errors.last_name} />
                 </div>
 
                 <div>
@@ -55,12 +79,35 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         className="mt-1 block w-full"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
-                        required
                         autoComplete="username"
                     />
 
                     <InputError className="mt-2" message={errors.email} />
                 </div>
+
+                { user.ss_number == '' && (
+                    <div>
+                        <InputLabel htmlFor="ss_number" value="Social Security Number" />
+
+                        <TextInput
+                            id="ss_number"
+                            className="mt-1 block w-full"
+                            value={data.ss_number}
+                            onChange={(e) => setData('ss_number', e.target.value)}
+                            required
+                            isFocused
+                            autoComplete="ss_number"
+                        />
+
+                        <InputError className="mt-2" message={errors.ss_number} />
+                    </div>
+                )}
+
+                { user.ss_number !== '' && (
+                    <>
+                        <h2>You have successfully entered your SSN. For security purposes it will not be displayed again. Please contact us for any assistance.</h2>
+                    </>
+                )}
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>

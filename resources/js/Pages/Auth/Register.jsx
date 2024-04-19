@@ -47,7 +47,7 @@ export default function Register() {
                         required
                     />
 
-                    <InputError message={errors.name} className="mt-2" />
+                    <InputError message={errors.first_name} className="mt-2" />
                 </div>
 
                 <div>
@@ -64,7 +64,7 @@ export default function Register() {
                         required
                     />
 
-                    <InputError message={errors.name} className="mt-2" />
+                    <InputError message={errors.last_name} className="mt-2" />
                 </div>
 
                 <div className="mt-4">

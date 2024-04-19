@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('is_admin')->default("false"); // boolean field, but stored as string in db
             $table->string('password');
-            $table->string('ss_number', 9);
+            $table->string('ss_number', 9)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
